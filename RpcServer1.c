@@ -63,6 +63,7 @@ int main()
 				{
 					sleep(2);
 					int num=recv(client_fd,buf,100,0);
+					printf("%d\n",num);
 					buf[num]='\0';
 					printf("receive from client %s\n",buf);
 					close(client_fd);
