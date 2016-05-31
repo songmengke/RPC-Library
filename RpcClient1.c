@@ -16,7 +16,7 @@ int main()
 	myaddr.sin_family=AF_INET;
 	myaddr.sin_addr.s_addr=inet_addr("115.159.44.20");
 	myaddr.sin_port=htons(4600);
-	char buf[]="hello songmengke";
+	char buf[]="call foo 3\r\n1\r\n2\r\n3\r\n\r\n\r\n";
 	
 	server_fd=socket(AF_INET,SOCK_STREAM,0);
 
@@ -26,7 +26,7 @@ int main()
 		perror("connect error");
 		exit(1);
 	}
-	send(server_fd,buf,16,0);
+	send(server_fd,buf,sizeof(buf),0);
 	printf("send to server %s\n",buf);
 	close(server_fd);
 }
