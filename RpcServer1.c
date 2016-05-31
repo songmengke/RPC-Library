@@ -21,7 +21,7 @@ int main()
 	myaddr.sin_family=AF_INET;
 	myaddr.sin_addr.s_addr=htonl(INADDR_ANY);
 	myaddr.sin_port=htons(4600);
-	char buf[16];
+	char buf[100];
 	//socket
 	server_fd=socket(AF_INET,SOCK_STREAM,0);
 	if(server_fd==-1)
@@ -42,9 +42,9 @@ int main()
 		exit(1);
 	}
 	printf("listening~\n");
-	client_fd=accept(server_fd,(struct sockaddr *)&clientaddr,&clientaddr_len);
 	while(1)
 	{
+		client_fd=accept(server_fd,(struct sockaddr *)&clientaddr,&clientaddr_len);
 		FD_ZERO(&fds);
 		FD_SET(server_fd,&fds);
 		FD_SET(client_fd,&fds);
@@ -62,19 +62,14 @@ int main()
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
-					recv(client_fd,buf,100,0);
+					int num=recv(client_fd,buf,100,0);
+					buf[num]='\0';
 					printf("receive from client %s\n",buf);
+					close(client_fd);
 				}
 		}
 	}
-	//accept
 	
-	//client_fd=accept(server_fd,(struct sockaddr *)&clientaddr,&clientaddr_len);
-	//if(client_fd==-1)	
-	//{
-	//	perror("accept error");
-	//	exit(1);
-	//}
 
 	close(server_fd);
 }
