@@ -62,10 +62,14 @@ int main()
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
-					int num=recv(client_fd,buf,100,0);
-					printf("%d\n",num);
-					buf[num]='\0';
+					char ReplyTest[]="calculate result";
+					int rnum=recv(client_fd,buf,100,0);
+					printf("%d\n",rnum);
+					buf[rnum]='\0';
 					printf("receive from client %s\n",buf);
+					printf("Calculating....\n");
+					int snum=send(client_fd,ReplyTest,sizeof(ReplyTest),0);
+					printf("send result %d butes to client\n ",snum);
 					close(client_fd);
 				}
 		}
