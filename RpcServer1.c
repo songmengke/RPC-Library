@@ -10,33 +10,33 @@
 #include<arpa/inet.h>
 int main()
 {
-	int server_fd;
-	int client_fd;
+	int server_fd;//服务器使用到的socket文件描述符
+	int client_fd;//用来接受连接的客户端socket文件描述符
 	struct sockaddr_in myaddr;
 	struct sockaddr_in clientaddr;
 	int clientaddr_len=sizeof(clientaddr);
 	int maxfdp;
 	fd_set fds;
-	struct timeval timeout={3,0};
+	struct timeval timeout={3,0};//设置超时时间
 	myaddr.sin_family=AF_INET;
 	myaddr.sin_addr.s_addr=htonl(INADDR_ANY);
-	myaddr.sin_port=htons(4600);
-	char buf[100];
+	myaddr.sin_port=htons(4600);//设置为静态端口，后期可更改
+	char buf[100];//用来接收客户端数据的缓存区
 	//socket
-	server_fd=socket(AF_INET,SOCK_STREAM,0);
+	server_fd=socket(AF_INET,SOCK_STREAM,0);//创建服务端socket描述符
 	if(server_fd==-1)
 	{
 		perror("socket error");
 		exit(1);
 	}
 	//bind
-	if(bind(server_fd,(struct sockaddr *)&myaddr,sizeof(myaddr))==-1)
+	if(bind(server_fd,(struct sockaddr *)&myaddr,sizeof(myaddr))==-1)//绑定server_fd描述符到本地
 	{
 		perror("bind error");
 		exit(1);
 	}
 	//listen
-	if(listen(server_fd,20)==-1)
+	if(listen(server_fd,20)==-1)//监听客户端连接请求
 	{
 		perror("listen error");
 		exit(1);
@@ -44,6 +44,7 @@ int main()
 	printf("listening~\n");
 	while(1)
 	{
+		//使用select函数来检测接受的连接是否可写
 		client_fd=accept(server_fd,(struct sockaddr *)&clientaddr,&clientaddr_len);
 		FD_ZERO(&fds);
 		FD_SET(server_fd,&fds);
@@ -62,15 +63,17 @@ int main()
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
-					int num=recv(client_fd,buf,100,0);
-					printf("%d\n",num);
-					buf[num]='\0';
+					char ReplyTest[]="calculate result";
+					int rnum=recv(client_fd,buf,100,0);
+					printf("%d\n",rnum);
+					buf[rnum]='\0';
 					printf("receive from client %s\n",buf);
+					printf("Calculating....\n");
+					int snum=send(client_fd,ReplyTest,sizeof(ReplyTest),0);
+					printf("send result %d butes to client\n ",snum);
 					close(client_fd);
 				}
 		}
 	}
-	
-
 	close(server_fd);
 }
