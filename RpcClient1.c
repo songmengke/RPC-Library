@@ -9,14 +9,26 @@
 #include<netinet/in.h>
 #include<sys/times.h>
 #include<sys/select.h>
-int main()
+int main(int argc,char **argv)
 {
-	int server_fd;
+	int server_fd,i;
 	struct sockaddr_in myaddr;
 	myaddr.sin_family=AF_INET;
 	myaddr.sin_addr.s_addr=inet_addr("115.159.44.20");//设定服务器静态IP
 	myaddr.sin_port=htons(4600);
-	char buf[]="call foo 3 1 2 3";//要发送给服务器的字符串
+	char buf[50]="call ";//要发送给服务器的字符串
+	strcat(buf,argv[1]);
+	strcat(buf," ");
+	strcat(buf,argv[2]);
+	printf("%d\n",argunum);
+	for(i=0;i<argunum+1;i++)
+	{
+		strcat(buf,"\r\n");
+		strcat(buf,argv[i+argunum]);
+	}
+	strcat(buf,"\r\n\0");
+	printf("字符串长度:%d",strlen(buf));
+
 	char RecvBuf[100];//用来接收服务器数据的缓冲区
 	server_fd=socket(AF_INET,SOCK_STREAM,0);//创建要连接的服务器socket描述符
 	if(connect(server_fd,(struct sockaddr *)&myaddr,sizeof(myaddr))==-1) //用创建好的描述符来建立连接
