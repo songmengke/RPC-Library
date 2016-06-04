@@ -19,15 +19,12 @@ int main(int argc,char **argv)
 	char buf[50]="call ";//要发送给服务器的字符串
 	strcat(buf,argv[1]);
 	strcat(buf," ");
-	strcat(buf,argv[2]);
-	printf("%d\n",argunum);
-	for(i=0;i<argunum+1;i++)
+	for(i=0;i<argc-2;i++)
 	{
+		strcat(buf,argv[i+2])
 		strcat(buf,"\r\n");
-		strcat(buf,argv[i+argunum]);
 	}
-	strcat(buf,"\r\n\0");
-	printf("字符串长度:%d",strlen(buf));
+	strcat(buf,"\r\n");
 
 	char RecvBuf[100];//用来接收服务器数据的缓冲区
 	server_fd=socket(AF_INET,SOCK_STREAM,0);//创建要连接的服务器socket描述符
