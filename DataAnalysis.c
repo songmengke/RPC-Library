@@ -63,9 +63,15 @@ int main(int argc ,char **argv)
 	//{
 //		printf("%s \n",mp[i]);
 //	}
-	number = toStr(mp,argv[1]);
+	FILE *fp=fopen("./res.txt","w+");
+	
+	number = toStr(mp,argv[3]);
 	printf("number = %d\n",number);
 	for(i=0;i<number;i++)
 		printf("%s\n",mp[i]);
+	fprintf(fp,"%s",argv[2]);
+	for(i=0;i<number;i++)
+		fprintf(fp,"%s\n",mp[i]);
+	close(fp);
 	return 0;
 }
