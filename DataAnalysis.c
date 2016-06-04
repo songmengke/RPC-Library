@@ -43,11 +43,11 @@ int toStr(char val[][100],char *str)
 	int number=0;
 	for(i=0;i<len-4;i++)
 	{
-		if(str[i]=='\\'&&str[i+1]=='r'&&str[i+2]=='\\'&&str[i+3]=='n')
+		if(str[i]=='r'&&str[i+1]=='n')
 		{
 			val[number++][tmp]='\0';
 			tmp=0;
-			i+=3;
+			i+=1;
 		}
 		else
 		{
