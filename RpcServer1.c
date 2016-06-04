@@ -63,14 +63,17 @@ int main()
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
+					char ExeStr[]="./DataAnalysis ";
 					char ReplyTest[]="calculate result";
-					int rnum=recv(client_fd,buf,100,0);
-					printf("%d\n",rnum);
+					int rnum=recv(client_fd,buf,50,0);
+					printf("%d\n",strlen(buf));
 					buf[rnum]='\0';
 					printf("receive from client %s\n",buf);
 					printf("Calculating....\n");
+					strcat(ExeStr,buf);
+					system(ExeStr);
 					int snum=send(client_fd,ReplyTest,sizeof(ReplyTest),0);
-					printf("send result %d butes to client\n ",snum);
+					printf("send result %d bytes to client\n ",snum);
 					close(client_fd);
 				}
 		}
