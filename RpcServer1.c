@@ -129,9 +129,10 @@ int main()
 					printf("参数个数:%d\n",argc);
 					for(i=0;i<argc;i++)
 					{
-						printf("参数值%d---%d \n",i+1,argument[i]);
+						printf("参数值%d---%d \n",i+1,a[i]);
 					}
-					int res=MultiFunction(function_name,argument,argc);
+					int res=0;
+					res=MultiFunction(function_name,a,argc);
 					printf("%d\n",res);
 					sprintf(ReplyTest,"%d",res);
 
