@@ -8,6 +8,7 @@
 #include<sys/un.h>
 #include<string.h>
 #include<arpa/inet.h>
+#include"FunLibrary.h"
 int toStr(char val[][100],char *str)
 {
 	int i=0;
@@ -115,7 +116,7 @@ int main()
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
-					char ReplyTest[]="calculate result";
+					char ReplyTest[30];
 					int rnum=recv(client_fd,buf,50,0);
 					printf("%d\n",strlen(buf));
 					buf[rnum]='\0';
@@ -130,8 +131,9 @@ int main()
 					{
 						printf("参数值%d---%d \n",i+1,argument[i]);
 					}
-
-
+					int res=MultiFunction(function_name,argument,argc);
+					printf("%d\n",res);
+					sprintf(ReplyTest,"%d",res);
 
 					int snum=send(client_fd,ReplyTest,sizeof(ReplyTest),0);
 					printf("send result %d bytes to client\n ",snum);
