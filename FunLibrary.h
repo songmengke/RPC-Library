@@ -65,11 +65,11 @@ void spile(char *str,char *fun_name,int *argunum,int arguval[])
 		int i;
 		int *pi;
 		number=toStr(val,str);
-		strcpy(fun_name,val[1]);
-		*argunum=number-3;
+		strcpy(fun_name,val[1]);//将函数名保存到fun_name
+		*argunum=number-3;//将参数个数保存在argunum所指向的单元中
 		for(i=0,pi=arguval;i<number-3;i++,pi++)
 		{
-				*pi=atoi(val[i+3]);
+				*pi=atoi(val[i+3]);//将解析出来的参数值保存到arguval数组中
 		}
 }
 
