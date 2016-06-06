@@ -28,3 +28,60 @@ int MultiFunction(char  func_name[],int argv[],int argc)
 		else
 				return 5;
 }
+int toStr(char val[][100],char *str)
+{
+		int i=0;
+		int len=strlen(str);
+		int tmp=0;
+		int number =0 ;
+		for(i=0;i<len-2;i++)
+		{
+				if(str[i]=='\r'&&str[i+1]=='\n')
+				{
+						val[number++][tmp]='\0';
+						tmp=0;
+						i++;
+				}
+				else if(str[i]==' ')
+				{
+						val[number++][tmp]='\0';
+						tmp=0;
+				}
+				else
+				{
+						val[number][tmp++]=str[i];
+				}
+		}
+		if(tmp!=0)
+		{
+				val[number++][tmp]='\0';
+		}
+		return number;
+}
+void spile(char *str,char *fun_name,int *argunum,int arguval[])
+{
+		char val[100][100];
+		int number=0;
+		int i;
+		int *pi;
+		number=toStr(val,str);
+		strcpy(fun_name,val[1]);
+		*argunum=number-3;
+		for(i=0,pi=arguval;i<number-3;i++,pi++)
+		{
+				*pi=atoi(val[i+3]);
+		}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

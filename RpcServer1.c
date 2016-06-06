@@ -9,52 +9,6 @@
 #include<string.h>
 #include<arpa/inet.h>
 #include"FunLibrary.h"
-int toStr(char val[][100],char *str)
-{
-	int i=0;
-	int len=strlen(str);
-	int tmp=0;
-	int number=0;
-	for(i=0;i<len-2;i++)
-	{
-		if(str[i]=='\r'&&str[i+1]=='\n')
-		{
-			val[number++][tmp]='\0';
-			tmp=0;
-			i++;
-		}
-		else if(str[i]==' ')
-		{
-			val[number++][tmp]='\0';
-			tmp=0;
-		}
-		else
-		{
-			val[number][tmp++]=str[i];
-		}
-	}
-	if(tmp!=0)
-	{
-		val[number++][tmp]='\0';
-	}
-	return number ;
-
-}
-void spile(char *str,char *fun_name,int *argunum,int arguval[])
-{
-	char val[100][100];
-	int number=0;
-	int i;
-	int *pi;
-	number=toStr(val,str);
-	strcpy(fun_name,val[1]);
-	*argunum=number-3;
-	for(i=0,pi=arguval;i<number-3;i++,pi++)//将传递过来的数组首地址赋值给pi，然后依次将参数值保存到数组中
-	{
-		*pi=atoi(val[i+3]);
-	}
-
-}
 int main()
 {
 	int server_fd;//服务器使用到的socket文件描述符
