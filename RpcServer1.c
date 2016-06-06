@@ -28,7 +28,7 @@ int main()
 	char *function_name;//用于保存接收的函数名
 	int argc;//用于保存传过来的参数个数
 	int *argument,a[100]={0};
-	argument=&a[0];
+	argument=&a[0];//用于保存参数值
 	//socket
 	server_fd=socket(AF_INET,SOCK_STREAM,0);//创建服务端socket描述符
 	if(server_fd==-1)
@@ -56,7 +56,7 @@ int main()
 		FD_ZERO(&fds);
 		FD_SET(server_fd,&fds);
 		FD_SET(client_fd,&fds);
-		maxfdp=server_fd>client_fd?server_fd+1:client_fd+1;
+		maxfdp=server_fd>client_fd?server_fd+1:client_fd+1;//将描述符最大值保存到maxfdp
 		switch(select(maxfdp,&fds,&fds,NULL,&timeout))
 		{
 			case -1:
@@ -64,33 +64,31 @@ int main()
 				break;
 			case 0:
 				sleep(2);
-				printf("time out~ \n");
+				printf("time out~ \n");//超时提示
 				break;
 			default:
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
-					char ReplyTest[30];
-					int rnum=recv(client_fd,buf,50,0);
-					printf("%d\n",strlen(buf));
+					char ReplyTest[30];//用于保存计算后的结果用于发送
+					int rnum=recv(client_fd,buf,50,0);//接收客户端数据
+					int res=0;//用于保存计算后返回的整型数据
 					buf[rnum]='\0';
-					printf("receive from client %s\n",buf);
 					printf("Calculating....\n");
-					spile(buf,function_name,&argc,argument);
-
-
+					spile(buf,function_name,&argc,argument);//解析客户端请求
+					/*
 					printf("函数名:%s\n",function_name);
 					printf("参数个数:%d\n",argc);
 					for(i=0;i<argc;i++)
 					{
 						printf("参数值%d---%d \n",i+1,a[i]);
 					}
-					int res=0;
-					res=MultiFunction(function_name,a,argc);
-					printf("%d\n",res);
-					sprintf(ReplyTest,"%d",res);
+					*/
+					res=MultiFunction(function_name,a,argc);//调用函数库计算并返回
+					printf("%d\n",res);//打印计算结果
+					sprintf(ReplyTest,"%d",res);//将整型数据转换为字符串类型用于发送
 
-					int snum=send(client_fd,ReplyTest,sizeof(ReplyTest),0);
+					int snum=send(client_fd,ReplyTest,strlen(ReplyTest),0);//发送结果
 					printf("send result %d bytes to client\n ",snum);
 					close(client_fd);
 				}
