@@ -12,7 +12,8 @@ int sub(int a,int b)
 }
 int MultiFunction(char  func_name[],int argv[],int argc)
 {
-
+		//将接收到的函数名，参数个数与服务器中保存的相比较
+		//匹配到则进行调用
 		if((strncmp(func_name,"foo",3)==0)&&(argc==3))
 		{
 			return foo(argv[0],argv[1],argv[2]);
