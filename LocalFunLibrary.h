@@ -9,11 +9,43 @@
 #include<netinet/in.h>
 #include<sys/times.h>
 #include<sys/select.h>
+int toStr(char val[][100],char *str)
+{
+	int i=0;
+	int len=strlen(str);
+	int tmp=0;
+	int number=0;
+	for(i=0;i<len-2;i++)
+	{
+		if(str[i]=='\r'&&str[i+1]=='\n')
+		{
+			val[number++][tmp]='\0';
+			tmp=0;
+			i++;
+		}
+		else if(str[i]==' ')
+		{
+			val[number++][tmp]='\0';
+			tmp=0;
+		}
+		else
+		{
+			val[number][tmp++]=str[i];
+		}
+	}
+	if(tmp!=0)
+	{
+		val[number++][tmp]='\0';
+	}
+	return number;
+}
 int rpc_call(char func_name[],int argv[],int argc)
 {
-	int server_fd,i,n;
+	int server_fd,i,n,number;
 	char temp[10][20];
+	char result[10];
 	char argctemp[5];
+	char val[50][100];
 	struct sockaddr_in myaddr;
 	myaddr.sin_family=AF_INET;
 	myaddr.sin_addr.s_addr=inet_addr("115.159.44.20");//设定服务器静态IP
@@ -48,7 +80,9 @@ int rpc_call(char func_name[],int argv[],int argc)
 		RecvBuf[RecvNum]='\0';
 		printf("receive from server %s\n",RecvBuf);
 	}
-	int res=atoi(RecvBuf);
+	number=toStr(val,RecvBuf);
+	strcpy(result,val[1]);
+	int res=atoi(result);
 	close(server_fd);
 	return res;
 }
@@ -56,10 +90,33 @@ int foo(int a,int b,int m)
 {
 	char *func_name="foo";
 	int argv[3];
-	int argc;
+	int argc=3;
 	argv[0]=a;
 	argv[1]=b;
 	argv[2]=m;
-	argc=3;
 	return rpc_call(func_name,argv,argc);
 }
+int plus(int a,int b)
+{
+	char *func_name="plus";
+	int argv[2];
+	int argc=2;
+	argv[0]=a;
+	argv[1]=b;
+	return rpc_call(func_name,argv,argc);
+}
+int sub(int a,int b)
+{
+	char *func_name="sub";
+	int argv[2];
+	int argc=2;
+	argv[0]=a;
+	argv[1]=b;
+	return rpc_call(func_name,argv,argc);
+}
+
+
+
+
+
+
