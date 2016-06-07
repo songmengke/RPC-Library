@@ -10,7 +10,11 @@ int sub(int a,int b)
 {
 		return a-b;
 }
-int MultiFunction(char  func_name[],int argv[],int argc)
+int plus4(int a,int b,int c,int d)
+{
+		return a+b+c+d;
+}
+int MultiFunction(char func_name[],int argv[],int argc)
 {
 		//将接收到的函数名，参数个数与服务器中保存的相比较
 		//匹配到则进行调用
@@ -18,16 +22,20 @@ int MultiFunction(char  func_name[],int argv[],int argc)
 		{
 			return foo(argv[0],argv[1],argv[2]);
 		}
-		else if((strncmp(func_name,"plus",4)==0)&&argc==2)
+		else if((strncmp(func_name,"plus",4)==0)&&(argc==2))
 		{
 			return plus(argv[0],argv[1]);
 		}
-		else if((strncmp(func_name,"sub",3)==0)&&argc==2)
+		else if((strncmp(func_name,"sub",3)==0)&&(argc==2))
 		{
 			return sub(argv[0],argv[1]);
 		}
-		else
-				return 5;
+		else if((strncmp(func_name,"plus4",5)==0)&&(argc==4))
+		{
+			return plus4(argv[0],argv[1],argv[2],argv[3]);
+		}
+		else 
+			return 0;
 }
 int toStr(char val[][100],char *str)
 {

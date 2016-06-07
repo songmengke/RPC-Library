@@ -70,25 +70,19 @@ int main()
 				if(FD_ISSET(client_fd,&fds))
 				{
 					sleep(2);
-					char ReplyTest[30];//用于保存计算后的结果用于发送
+					char Reply[10];//用于保存计算后的结果用于发送
+					char ReplyText[30]="return ";//保存构造的发送字符串
 					int rnum=recv(client_fd,buf,50,0);//接收客户端数据
 					int res=0;//用于保存计算后返回的整型数据
 					buf[rnum]='\0';
 					printf("Calculating....\n");
 					spile(buf,function_name,&argc,argument);//解析客户端请求
-					/*
-					printf("函数名:%s\n",function_name);
-					printf("参数个数:%d\n",argc);
-					for(i=0;i<argc;i++)
-					{
-						printf("参数值%d---%d \n",i+1,a[i]);
-					}
-					*/
 					res=MultiFunction(function_name,a,argc);//调用函数库计算并返回
 					printf("%d\n",res);//打印计算结果
-					sprintf(ReplyTest,"%d",res);//将整型数据转换为字符串类型用于发送
-
-					int snum=send(client_fd,ReplyTest,strlen(ReplyTest),0);//发送结果
+					sprintf(Reply,"%d",res);//将整型数据转换为字符串类型用于发送
+					strcat(ReplyText,Reply);//构造发送字符串
+					strcat(ReplyText,"\r\n");
+					int snum=send(client_fd,ReplyText,strlen(ReplyText),0);//发送结果
 					printf("send result %d bytes to client\n ",snum);
 					close(client_fd);
 				}
