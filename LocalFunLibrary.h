@@ -48,7 +48,7 @@ int rpc_call(char func_name[],int argv[],int argc)
 	char val[50][100];
 	struct sockaddr_in myaddr;
 	myaddr.sin_family=AF_INET;
-	myaddr.sin_addr.s_addr=inet_addr("115.159.44.20");//设定服务器静态IP
+	myaddr.sin_addr.s_addr=inet_addr("127.0.0.1");//设定服务器静态IP
 	myaddr.sin_port=htons(4600);
 	char buf[50]="call ";//要发送给服务器的字符串
 	strcat(buf,func_name);

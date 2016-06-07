@@ -67,12 +67,12 @@ int toStr(char val[][100],char *str)
 		}
 		return number;
 }
-void spile(char *str,char *fun_name,int *argunum,int arguval[])
+void spile(char *str,char fun_name[],int *argunum,int arguval[])
 {
 		char val[100][100];
 		int number=0;
 		int i;
-		int *pi;
+		int *pi=NULL;
 		number=toStr(val,str);
 		strcpy(fun_name,val[1]);//将函数名保存到fun_name
 		*argunum=number-3;//将参数个数保存在argunum所指向的单元中

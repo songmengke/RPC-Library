@@ -25,7 +25,7 @@ int main()
 	myaddr.sin_port=htons(4600);//设置为静态端口，后期可更改
 	char buf[100];//用来接收客户端数据的缓存区
 
-	char *function_name;//用于保存接收的函数名
+	char function_name[30];//用于保存接收的函数名
 	int argc;//用于保存传过来的参数个数
 	int *argument,a[100]={0};
 	argument=&a[0];//用于保存参数值
