@@ -114,6 +114,17 @@ int sub(int a,int b)
 	argv[1]=b;
 	return rpc_call(func_name,argv,argc);
 }
+int plus4(int a,int b,int c,int d)
+{
+	char *func_name="plus4";
+	int argv[4];
+	int argc=4;
+	argv[0]=a;
+	argv[1]=b;
+	argv[2]=c;
+	argv[3]=d;
+	return rpc_call(func_name,argv,argc);
+}
 
 
 
